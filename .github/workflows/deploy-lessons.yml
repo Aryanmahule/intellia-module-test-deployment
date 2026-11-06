@@ -114,17 +114,6 @@ jobs:
             s3://${{ secrets.LESSONS_S3_BUCKET }}/probability-theoretical-vs-experimental \
             --delete --cache-control "public,max-age=31536000,immutable" --no-progress
 
-      # ── two steps equations ─────────────────────────────────────────────────
-      - name: Build — two-step-equations
-        working-directory: "two steps equations"
-        run: npm ci && npx vite build --base=/two-step-equations/
-
-      - name: Deploy — two-step-equations
-        run: |
-          aws s3 sync "two steps equations/dist" \
-            s3://${{ secrets.LESSONS_S3_BUCKET }}/two-step-equations \
-            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
-
       # ── Understanding Equations ─────────────────────────────────────────────
       - name: Build — understanding-equations
         working-directory: "Understanding Equations"
