@@ -1,0 +1,158 @@
+name: Deploy Lessons to S3
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy All Lessons
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # ── Algebric patterns and Word expressions ──────────────────────────────
+      - name: Build — algebric-patterns-and-word-expressions
+        working-directory: "Algebric patterns and Word expressions"
+        run: npm ci && npx vite build --base=/algebric-patterns-and-word-expressions/
+
+      - name: Deploy — algebric-patterns-and-word-expressions
+        run: |
+          aws s3 sync "Algebric patterns and Word expressions/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/algebric-patterns-and-word-expressions \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── Bracket Equations ───────────────────────────────────────────────────
+      - name: Build — bracket-equations
+        working-directory: "Bracket Equations"
+        run: npm ci && npx vite build --base=/bracket-equations/
+
+      - name: Deploy — bracket-equations
+        run: |
+          aws s3 sync "Bracket Equations/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/bracket-equations \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── Fraction Equations ──────────────────────────────────────────────────
+      - name: Build — fraction-equations
+        working-directory: "Fraction Equations"
+        run: npm ci && npx vite build --base=/fraction-equations/
+
+      - name: Deploy — fraction-equations
+        run: |
+          aws s3 sync "Fraction Equations/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/fraction-equations \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── G8- Rates ───────────────────────────────────────────────────────────
+      - name: Build — g8-rates
+        working-directory: "G8- Rates"
+        run: npm ci && npx vite build --base=/g8-rates/
+
+      - name: Deploy — g8-rates
+        run: |
+          aws s3 sync "G8- Rates/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/g8-rates \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── G8-Ratios in Real World Problems ────────────────────────────────────
+      - name: Build — g8-ratios-in-real-world-problems
+        working-directory: "G8-Ratios in Real World Problems"
+        run: npm ci && npx vite build --base=/g8-ratios-in-real-world-problems/
+
+      - name: Deploy — g8-ratios-in-real-world-problems
+        run: |
+          aws s3 sync "G8-Ratios in Real World Problems/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/g8-ratios-in-real-world-problems \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── Justify solutions ───────────────────────────────────────────────────
+      - name: Build — justify-solutions-mathematical-reasoning
+        working-directory: "Justify solutions from Mathematical Reasoning & Communication"
+        run: npm ci && npx vite build --base=/justify-solutions-mathematical-reasoning/
+
+      - name: Deploy — justify-solutions-mathematical-reasoning
+        run: |
+          aws s3 sync "Justify solutions from Mathematical Reasoning & Communication/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/justify-solutions-mathematical-reasoning \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── one step equations ──────────────────────────────────────────────────
+      - name: Build — one-step-equations
+        working-directory: "one step equations"
+        run: npm ci && npx vite build --base=/one-step-equations/
+
+      - name: Deploy — one-step-equations
+        run: |
+          aws s3 sync "one step equations/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/one-step-equations \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── Substitution and formulae ───────────────────────────────────────────
+      - name: Build — substitution-and-formulae
+        working-directory: "Substitution and formulae"
+        run: npm ci && npx vite build --base=/substitution-and-formulae/
+
+      - name: Deploy — substitution-and-formulae
+        run: |
+          aws s3 sync "Substitution and formulae/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/substitution-and-formulae \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── Thereotical VS Expiremental Probability ─────────────────────────────
+      - name: Build — probability-theoretical-vs-experimental
+        working-directory: "Thereotical VS Expiremental Probability"
+        run: npm ci && npx vite build --base=/probability-theoretical-vs-experimental/
+
+      - name: Deploy — probability-theoretical-vs-experimental
+        run: |
+          aws s3 sync "Thereotical VS Expiremental Probability/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/probability-theoretical-vs-experimental \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── two steps equations ─────────────────────────────────────────────────
+      - name: Build — two-step-equations
+        working-directory: "two steps equations"
+        run: npm ci && npx vite build --base=/two-step-equations/
+
+      - name: Deploy — two-step-equations
+        run: |
+          aws s3 sync "two steps equations/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/two-step-equations \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── Understanding Equations ─────────────────────────────────────────────
+      - name: Build — understanding-equations
+        working-directory: "Understanding Equations"
+        run: npm ci && npx vite build --base=/understanding-equations/
+
+      - name: Deploy — understanding-equations
+        run: |
+          aws s3 sync "Understanding Equations/dist" \
+            s3://${{ secrets.LESSONS_S3_BUCKET }}/understanding-equations \
+            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
+
+      # ── Invalidate CloudFront ───────────────────────────────────────────────
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.LESSONS_CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
+
+      - name: Done
+        run: echo "All lessons deployed successfully!"
