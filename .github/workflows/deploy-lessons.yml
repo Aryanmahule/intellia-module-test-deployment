@@ -48,17 +48,6 @@ jobs:
             s3://${{ secrets.LESSONS_S3_BUCKET }}/bracket-equations \
             --delete --cache-control "public,max-age=31536000,immutable" --no-progress
 
-      # ── Fraction Equations ──────────────────────────────────────────────────
-      - name: Build — fraction-equations
-        working-directory: "Fraction Equations"
-        run: npm ci && npx vite build --base=/fraction-equations/
-
-      - name: Deploy — fraction-equations
-        run: |
-          aws s3 sync "Fraction Equations/dist" \
-            s3://${{ secrets.LESSONS_S3_BUCKET }}/fraction-equations \
-            --delete --cache-control "public,max-age=31536000,immutable" --no-progress
-
       # ── G8- Rates ───────────────────────────────────────────────────────────
       - name: Build — g8-rates
         working-directory: "G8- Rates"
