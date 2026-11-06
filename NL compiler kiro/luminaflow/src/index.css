@@ -1,0 +1,158 @@
+/* src/index.css */
+:root {
+  --bg: #0b1120;
+  --panel: #0f172a;
+  --panel-2: #131c31;
+  --border: #1e293b;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #6366f1;
+  --green: #22c55e;
+  --blue: #3b82f6;
+  --amber: #f59e0b;
+  --red: #ef4444;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- layout ---------- */
+.lf-app { display: grid; grid-template-columns: 360px 1fr; height: 100vh; overflow: hidden; }
+.lf-sidebar {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.lf-canvas { position: relative; height: 100%; min-width: 0; }
+
+@media (max-width: 800px) {
+  .lf-app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .lf-sidebar { max-height: 55vh; border-right: 0; border-bottom: 1px solid var(--border); }
+}
+
+/* ---------- sidebar ---------- */
+.lf-brand { display: flex; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.lf-logo { font-size: 28px; color: var(--accent); line-height: 1; }
+.lf-brand h1 { margin: 0; font-size: 18px; letter-spacing: 0.2px; }
+.lf-brand p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+
+.lf-section { padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+.lf-section.lf-grow { flex: 1; min-height: 160px; border-bottom: 0; }
+.lf-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.lf-hint { margin: 0; font-size: 11.5px; color: var(--muted); }
+
+.lf-input, .lf-textarea {
+  width: 100%;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 10px;
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+.lf-textarea { resize: vertical; line-height: 1.45; }
+.lf-input:focus, .lf-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
+
+.lf-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.lf-btn {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+}
+.lf-btn:hover:not(:disabled) { border-color: var(--accent); }
+.lf-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.lf-btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; flex: 1; }
+.lf-btn-primary:hover:not(:disabled) { background: #5558e6; }
+.lf-btn-danger:hover:not(:disabled) { border-color: var(--red); color: var(--red); }
+
+.lf-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.lf-chip {
+  background: transparent;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.lf-chip:hover { color: var(--text); border-color: var(--accent); }
+.lf-check { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--muted); cursor: pointer; }
+.lf-check input { margin-top: 2px; }
+
+/* ---------- status + log ---------- */
+.lf-statusbar { display: flex; justify-content: space-between; align-items: center; }
+.lf-badge { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); }
+.lf-badge-idle { color: var(--muted); }
+.lf-badge-compiling { color: var(--amber); border-color: var(--amber); animation: lf-pulse 1.1s ease-in-out infinite; }
+.lf-badge-success { color: var(--green); border-color: var(--green); }
+.lf-badge-error { color: var(--red); border-color: var(--red); }
+@keyframes lf-pulse { 50% { opacity: 0.45; } }
+
+.lf-log {
+  list-style: none; margin: 0; padding: 8px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  overflow-y: auto; max-height: 260px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11.5px; line-height: 1.5;
+}
+.lf-log li { padding: 2px 0; word-break: break-word; color: var(--muted); }
+.lf-log time { color: #475569; margin-right: 4px; }
+.lf-log-error { color: #fca5a5 !important; }
+.lf-log-warn { color: #fcd34d !important; }
+.lf-log-success { color: #86efac !important; }
+.lf-log-info { color: var(--muted); }
+
+/* ---------- empty state ---------- */
+.lf-empty { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.lf-empty-card { text-align: center; padding: 28px 32px; border: 1px dashed var(--border); border-radius: 16px; background: rgba(15, 23, 42, 0.7); max-width: 340px; }
+.lf-empty-logo { font-size: 40px; color: var(--accent); }
+.lf-empty-card h2 { margin: 6px 0; font-size: 18px; }
+.lf-empty-card p { margin: 0; font-size: 13px; color: var(--muted); }
+
+/* ---------- React Flow node styling (overrides) ---------- */
+.react-flow__node.lf-node {
+  width: 190px;
+  padding: 26px 12px 12px;
+  border-radius: 12px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 2px solid var(--border);
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: left;
+  white-space: pre-line;           /* renders the "\n" between label and description */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.react-flow__node.lf-node::before {   /* kind badge */
+  position: absolute; top: 8px; left: 12px;
+  font-size: 9.5px; font-weight: 800; letter-spacing: 0.1em;
+}
+.react-flow__node.lf-trigger   { border-color: var(--green); }
+.react-flow__node.lf-trigger::before   { content: 'TRIGGER';   color: var(--green); }
+.react-flow__node.lf-action    { border-color: var(--blue); }
+.react-flow__node.lf-action::before    { content: 'ACTION';    color: var(--blue); }
+.react-flow__node.lf-condition { border-color: var(--amber); background: #1f1a0e; }
+.react-flow__node.lf-condition::before { content: 'CONDITION'; color: var(--amber); }
+.react-flow__node.lf-node.selected,
+.react-flow__node.lf-node:focus-visible { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.55), 0 6px 18px rgba(0, 0, 0, 0.35); }
+
+.react-flow__handle { width: 9px; height: 9px; background: var(--muted); border: 2px solid var(--panel); }
+.react-flow__minimap { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
